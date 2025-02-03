@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contract - Location Car Project</title>
+    <link rel="stylesheet" href="css/indexStyle.css" />
+    
+    
+  </head>
+  <body>
+    <header>
+      <h1>Contrat</h1>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="explore-cars">Explore Cars</a></li>
+          <li><a href="rent">Rent</a></li>
+          <li><a href="payment">Payment</a></li>
+          <li><a href="contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+    
+    <h2>Contrat Details</h2>
+    <p><strong>Car Type:</strong> <span id="car-type"></span></p>
+    <p><strong>Rental Duration (days):</strong> <span id="rental-days"></span></p>
+    <p><strong>Start Date:</strong> <span id="start-date"></span></p>
+    <p><strong>totalPrice:</strong> <span id="totalPrice"></span></p>
+    <p><strong>Additional Information:</strong> <span id="additional-info"></span></p>
+
+    <!-- Create Contract Button -->
+     <div class="button-container">
+      <button id="createContractButton">Create Contract</button>
+     </div>
+    
+
+    <!-- The Popup (Poster) -->
+    <div id="popup" class="popup">
+      Great! The contract was created.
+    </div>
+
+
+ <!-- Overlay -->
+ <div id="overlay" class="overlay"></div>
+ <br>
+ <footer>
+   <div class="container">
+     <p>&copy; 2025 Car Rental. All rights reserved.</p>
+   </div>
+   
+ </footer>
+ <script>
+   // Retrieve data from localStorage and display it automatically
+   price = localStorage.getItem('price');
+   document.getElementById('car-type').textContent = localStorage.getItem('carType');
+   document.getElementById('rental-days').textContent = localStorage.getItem('rentalDuration');
+   document.getElementById('start-date').textContent = localStorage.getItem('startDate');
+    document.getElementById('totalPrice').textContent = price*localStorage.getItem('rentalDuration');
+   document.getElementById('additional-info').textContent = localStorage.getItem('additionalInfo');
+
+   // Add event listener to the "Create Contract" button
+   document.getElementById('createContractButton').addEventListener('click', function() {
+     // Show the popup and overlay
+     document.getElementById('popup').classList.add('show');
+     document.getElementById('overlay').classList.add('show');
+
+     // After 3 seconds, hide the popup
+     setTimeout(function() {
+       document.getElementById('popup').classList.remove('show');
+       document.getElementById('overlay').classList.remove('show');
+     }, 3000); // The popup will disappear after 3 seconds
+   });
+ </script>
+</body>
+</html>
