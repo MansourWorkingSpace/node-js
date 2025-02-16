@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contract - Location Car Project</title>
+    <link rel="stylesheet" href="css/indexStyle.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Contrat</h1>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="explore-cars">Explore Cars</a></li>
+          <li><a href="rent">Rent</a></li>
+          <li><a href="payment">Payment</a></li>
+          <li><a href="contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <h2>Contrat Details</h2>
+    <p><strong>First Name:</strong> <span id="firstName"></span></p>
+    <p><strong>Last Name:</strong> <span id="lastName"></span></p>
+    <p><strong>Car:</strong> <span id="car-type"></span></p>
+    <p>
+      <strong>Rental Duration (days):</strong> <span id="rental-days"></span>
+    </p>
+    <p><strong>Start Date:</strong> <span id="start-date"></span></p>
+    <p><strong>Total Price:</strong> <span id="totalPrice"></span></p>
+
+    <div class="button-container">
+      <button id="createContractButton">Create Contract</button>
+    </div>
+
+    <div id="popup" class="popup">Great! The contract was created.</div>
+
+    <div id="overlay" class="overlay"></div>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 Car Rental. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // *** THIS CODE IS ESSENTIAL AND WAS MISSING ***
+      // Get values from localStorage and populate the page
+      const firstName = localStorage.getItem("firstName");
+      const lastName = localStorage.getItem("lastName");
+      const carType =
+        localStorage.getItem("carMarque") +
+        " " +
+        localStorage.getItem("carModel");
+      const rentalDays = localStorage.getItem("rentalDuration");
+      const startDate = localStorage.getItem("startDate");
+      const carPrice = localStorage.getItem("carPrice");
+
+      document.getElementById("firstName").textContent = firstName || "";
+      document.getElementById("lastName").textContent = lastName || "";
+      document.getElementById("car-type").textContent = carType || "";
+      document.getElementById("rental-days").textContent = rentalDays || "";
+      document.getElementById("start-date").textContent = startDate || "";
+
+      const totalPrice =
+        carPrice && rentalDays
+          ? parseFloat(carPrice) * parseInt(rentalDays)
+          : "";
+      document.getElementById("totalPrice").textContent = totalPrice;
+
+      document
+        .getElementById("createContractButton")
+        .addEventListener("click", async function () {
+          const firstName = document.getElementById("firstName").textContent;
+          const lastName = document.getElementById("lastName").textContent;
+          const carType = document.getElementById("car-type").textContent;
+          const rentalDays = parseInt(
+            document.getElementById("rental-days").textContent
+          );
+          const startDate = document.getElementById("start-date").textContent;
+          const totalPrice = parseFloat(
+            document.getElementById("totalPrice").textContent
+          );
+
+          // Client-side validation (important!)
+          if (
+            !firstName ||
+            !lastName ||
+            !carType ||
+            isNaN(rentalDays) ||
+            rentalDays <= 0 ||
+            !startDate ||
+            isNaN(totalPrice) ||
+            totalPrice <= 0
+          ) {
+            alert("Please fill in all contract details.");
+            return; // Stop the function if validation fails
+          }
+
+          const contractData = {
+            firstname: firstName, // Changed to lowercase
+            lastname: lastName, // Changed to lowercase
+            carType: carType,
+            rentalDays: rentalDays,
+            startDate: startDate,
+            totalPrice: totalPrice,
+          };
+
+          console.log("contractData before fetch:", contractData); // Debugging: Check the data before sending
+
+          try {
+            const response = await fetch("/api/contracts", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(contractData),
+            });
+
+            if (response.ok) {
+              const result = await response.json();
+              console.log("Contract saved:", result.message, result.insertedId);
+              document.getElementById("popup").classList.add("show");
+              document.getElementById("overlay").classList.add("show");
+
+              setTimeout(function () {
+                document.getElementById("popup").classList.remove("show");
+                document.getElementById("overlay").classList.remove("show");
+              }, 3000);
+            } else {
+              const errorData = await response.json();
+              console.error(
+                "Error saving contract:",
+                response.status,
+                errorData
+              );
+              alert(
+                `Error saving contract: ${
+                  errorData.message || response.statusText
+                }`
+              );
+            }
+          } catch (error) {
+            console.error("Error saving contract (fetch):", error);
+            alert("An error occurred while saving the contract.");
+          }
+        });
+    </script>
+  </body>
+</html>

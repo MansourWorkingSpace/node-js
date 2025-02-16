@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Car List</title>
+    <link rel="stylesheet" href="css/exploreStyle.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .car {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+      }
+      .car img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover; /* Ensures the image fits well */
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Explore-cars</h1>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="contrat">Contrat</a></li>
+          <li><a href="rent">Rent</a></li>
+          <li><a href="payment">Payment</a></li>
+        </ul>
+      </nav>
+    </header>
+    <br />
+    <br />
+    <!-- Search Form -->
+    <form id="search-form">
+      <input
+        type="text"
+        id="search-input"
+        placeholder="Search by brand or model..."
+        required
+      />
+      <button type="submit">Search</button>
+    </form>
+
+    <h2>List of Cars</h2>
+    <div id="car-list" class="SearchContainer"></div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 Car Rental. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Fetch car data from the server
+      async function fetchCars(query = "") {
+        const url = query ? `/api/voitures?query=${query}` : "/api/voitures";
+        const response = await fetch(url);
+        const cars = await response.json();
+        return cars;
+      }
+
+      // Render cars in the HTML
+     async function renderCars(query = "") {
+    const cars = await fetchCars(query);
+    const carList = document.getElementById("car-list");
+    carList.innerHTML = ""; // Clear previous results
+
+    if (cars.length === 0) {
+        carList.innerHTML = "<p>No cars found.</p>";
+        return;
+    }
+
+    cars.forEach((car) => {
+        const carDiv = document.createElement("div");
+        carDiv.className = "car-card";
+        carDiv.innerHTML = `
+            <img src="${car.image}" alt="${car.marque} ${car.model}" style="width: 100px; height: 100px;">
+            <h3>${car.marque} ${car.model}</h3>
+            <p>Seats: ${car.places}</p>
+            <p>Price: ${car.price} dt/day</p>
+            <button onclick="rentCar('${car.marque}', '${car.model}', ${car.price})">Rent</button>
+        `;
+        carList.appendChild(carDiv);
+    });
+}
+
+function rentCar(marque, model, price) {
+    // Store the car details in localStorage
+    localStorage.setItem("carMarque", marque);
+    localStorage.setItem("carModel", model);
+    localStorage.setItem("carPrice", price);
+
+    // Redirect to the rent.html page
+    window.location.href = "rent";
+}
+
+      // Handle form submission
+      document
+        .getElementById("search-form")
+        .addEventListener("submit", async (event) => {
+          event.preventDefault(); // Prevent the form from submitting
+          const query = document.getElementById("search-input").value;
+          await renderCars(query); // Render cars based on the search query
+        });
+
+      // Call the render function when the page loads
+      window.onload = () => {
+        renderCars(); // Render all cars initially
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rent - Location Car Project</title>
+    <link rel="stylesheet" href="css/indexStyle.css" />
+    <style>
+      .error {
+        color: red;
+        font-size: small;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Rent</h1>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="explore-cars">Explore Cars</a></li>
+          <li><a href="payment">Payment</a></li>
+          <li><a href="contrat">Contrat</a></li>
+          <li><a href="contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <h2>Rent a Car</h2>
+    <form id="rent-form">
+      <label for="first-name">First Name:</label>
+      <input type="text" id="first-name" name="first-name" required />
+      <span class="error" id="first-name-error"></span><br />
+
+      <label for="last-name">Last Name:</label>
+      <input type="text" id="last-name" name="last-name" required />
+      <span class="error" id="last-name-error"></span><br />
+
+      <label for="car-marque">Car Marque:</label>
+      <input type="text" id="car-marque" name="car-marque" readonly /><br />
+
+      <label for="car-model">Car Model:</label>
+      <input type="text" id="car-model" name="car-model" readonly /><br />
+
+      <label for="car-price">Price per Day (dt):</label>
+      <input type="number" id="car-price" name="car-price" readonly /><br />
+
+      <label for="rental-days">Rental Duration (days):</label>
+      <input
+        type="number"
+        id="rental-days"
+        name="rental-days"
+        required
+        min="1"
+      />
+      <span class="error" id="rental-days-error"></span><br />
+
+      <label for="start-date">Start Date:</label>
+      <input type="date" id="start-date" name="start-date" required />
+      <span class="error" id="start-date-error"></span><br />
+
+      <button type="button" id="nextButton">Next</button>
+    </form>
+    <br />
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 Car Rental. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      const carMarque = localStorage.getItem("carMarque");
+      const carModel = localStorage.getItem("carModel");
+      const carPrice = localStorage.getItem("carPrice");
+
+      document.getElementById("car-marque").value = carMarque;
+      document.getElementById("car-model").value = carModel;
+      document.getElementById("car-price").value = carPrice;
+
+      document
+        .getElementById("nextButton")
+        .addEventListener("click", function () {
+          let isValid = true;
+
+          const firstName = document.getElementById("first-name");
+          const lastName = document.getElementById("last-name");
+          const rentalDays = document.getElementById("rental-days");
+          const startDate = document.getElementById("start-date");
+
+          if (firstName.value === "") {
+            document.getElementById("first-name-error").textContent =
+              "Please enter your first name.";
+            isValid = false;
+          } else {
+            document.getElementById("first-name-error").textContent = "";
+          }
+
+          if (lastName.value === "") {
+            document.getElementById("last-name-error").textContent =
+              "Please enter your last name.";
+            isValid = false;
+          } else {
+            document.getElementById("last-name-error").textContent = "";
+          }
+
+          if (rentalDays.value === "" || rentalDays.value < 1) {
+            document.getElementById("rental-days-error").textContent =
+              "Please enter a valid number of rental days.";
+            isValid = false;
+          } else {
+            document.getElementById("rental-days-error").textContent = "";
+          }
+
+          if (startDate.value === "") {
+            document.getElementById("start-date-error").textContent =
+              "Please select a start date.";
+            isValid = false;
+          } else {
+            document.getElementById("start-date-error").textContent = "";
+          }
+
+          // Store in localStorage *BEFORE* redirecting (but only if valid)
+          if (isValid) {
+            localStorage.setItem("firstName", firstName.value);
+            localStorage.setItem("lastName", lastName.value);
+            localStorage.setItem("rentalDuration", rentalDays.value);
+            localStorage.setItem("startDate", startDate.value);
+            localStorage.setItem("carPrice", carPrice);
+            window.location.href = "payment"; // Go directly to payment.html
+          }
+        });
+    </script>
+  </body>
+</html>

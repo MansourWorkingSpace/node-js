@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payment</title>
+    <link rel="stylesheet" href="css/indexStyle.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Payment</h1>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="explore-cars">Explore Cars</a></li>
+          <li><a href="rent">Rent</a></li>
+          <li><a href="contrat">Contrat</a></li>
+          <li><a href="contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+    <h2>Complete your payment</h2>
+    <form action="process-payment.php" method="POST">
+      <label for="card-number">Card Number:</label>
+      <input type="text" id="card-number" name="card-number" required />
+      <br />
+      <label for="expiry-date">Expiry Date:</label>
+      <input type="date" id="expiry-date" name="expiry-date" required />
+      <br />
+      <label for="cvv">CVV:</label>
+      <input type="text" id="cvv" name="cvv" required />
+      <br />
+      <button type="button" id="payerNowButton">Payer Now</button>
+    </form>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <footer>
+      <p>&copy; 2025 Car Rental. All rights reserved.</p>
+    </footer>
+    <script>
+      document
+        .getElementById("payerNowButton")
+        .addEventListener("click", function () {
+          window.location.href = "contrat";
+        });
+    </script>
+  </body>
+</html>
