@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Device</title>
+    <link rel="stylesheet" href="css/indexStyle.css" />
+  </head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 1rem 0;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    nav ul li {
+      display: inline;
+      margin: 0 10px;
+    }
+
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    form label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    form input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    form button {
+      background-color: #333;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    form button:hover {
+      background-color: #555;
+    }
+  </style>
+  <body>
+    <header>
+      <h1>Add Device</h1>
+      <nav>
+        <ul>
+          <li><a href="/devices">Devices List</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <form id="addDeviceForm">
+        <label for="deviceName">Device Name:</label>
+        <input type="text" id="deviceName" name="deviceName" required />
+        <label for="adresseIp">IP Address:</label>
+        <input type="text" id="adresseIp" name="adresseIp" required />
+        <label for="adresseMac">MAC Address:</label>
+        <input type="text" id="adresseMac" name="adresseMac" required />
+        <button type="submit">Add Device</button>
+      </form>
+    </main>
+    <script src="js/script.js"></script>
+  </body>
+</html>
